@@ -2,36 +2,45 @@ package com.example.mymemesapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.compose.runtime.Composable
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mymemesapp.data.Meme
 import com.example.mymemesapp.ui.MainViewModel
-import com.example.mymemesapp.ui.RV
-import dagger.hilt.EntryPoint
-import dagger.hilt.android.HiltAndroidApp
+import com.example.mymemesapp.ui.MemesAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
-@EntryPoint
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    lateinit var viewModel: MainViewModel
+    //lateinit var viewModel: MainViewModel
+   // lateinit var memesAdapter: MemesAdapter
+
     lateinit var mList : List<Meme> // by lazy { ::fn }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-       // RV(list = )
+       val  viewModel=ViewModelProvider(this).get(MainViewModel::class.java)
+      //  observeViewModel(viewModel)
+        var recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.layoutManager=LinearLayoutManager(this)
 
-       // RV(list = mList )
-    }
-
-//    private fun fn(ls : MutableList<Meme>) {
-//        mList =ls
-//    }
-
-    private fun observeViewModel(viewModel: MainViewModel){
-
+      val    memesAdapter by lazy { MemesAdapter(::fn) }
+        recyclerView.adapter=memesAdapter
         viewModel.memesList.observe(this){
-           //fn(it)
-            mList = it
+            memesAdapter.getList(it)
         }
 
     }
+    fun fn(){
+
+    }
+
+
+//    private fun observeViewModel(viewModel: MainViewModel){
+//
+//        viewModel.memesList.observe(this){
+//          memesAdapter.getList(it)
+//        }
+//
+//    }
 }

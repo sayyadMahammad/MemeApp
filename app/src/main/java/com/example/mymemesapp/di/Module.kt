@@ -16,26 +16,26 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class Module {
+class Module {
 
-
-    @Singleton
-    @Binds
-    abstract fun bindsRepo(repoImp: RepoImp):Repository
 
     @Singleton
     @Provides
-    fun providesMoshi(): MoshiConverterFactory = MoshiConverterFactory.create()
+    fun providesRepo(repoImp: RepoImp):Repository = repoImp
+
+//    @Singleton
+//    @Provides
+//    fun providesMoshi(): MoshiConverterFactory = MoshiConverterFactory.create()
 
 
     @Singleton
     @Provides
     fun providesRetrofit(
-        moshi: MoshiConverterFactory
+      //  moshi: MoshiConverterFactory
     ): Retrofit = Retrofit
         .Builder()
         .baseUrl(BASE_URL)
-        .addConverterFactory(moshi)
+        .addConverterFactory(MoshiConverterFactory.create())
         .build()
 
 
