@@ -1,5 +1,6 @@
 package com.example.mymemesapp.data
 
+import com.example.mymemesapp.constants.*
 import com.squareup.moshi.Json
 
 data class Meme(
@@ -11,20 +12,10 @@ data class Meme(
     val height: Int,
     @Json(name = ID)
     val id: String,
-    @Json(name = NAME )
+    @Json(name = NAME)
     val name: String,
     @Json(name = URL)
     val url: String,
-    @Json(name = WIDTH )
+    @Json(name = WIDTH)
     val width: Int
-){
-    companion object{
-        const val ID="id"
-        const val NAME="name"
-        const val URL="url"
-        const val WIDTH="width"
-        const val HEIGHT="height"
-        const val BOX="box_count"
-        const val CAPTION="captions"
-    }
-}
+)

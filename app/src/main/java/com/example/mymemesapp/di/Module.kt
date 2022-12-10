@@ -4,7 +4,6 @@ import com.example.mymemesapp.api.ApiService
 import com.example.mymemesapp.constants.BASE_URL
 import com.example.mymemesapp.dataLayer.RepoImp
 import com.example.mymemesapp.dataLayer.Repository
-import com.squareup.moshi.Moshi
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -21,21 +20,17 @@ class Module {
 
     @Singleton
     @Provides
-    fun providesRepo(repoImp: RepoImp):Repository = repoImp
-
-//    @Singleton
-//    @Provides
-//    fun providesMoshi(): MoshiConverterFactory = MoshiConverterFactory.create()
+    fun providesMoshi(): MoshiConverterFactory = MoshiConverterFactory.create()
 
 
     @Singleton
     @Provides
     fun providesRetrofit(
-      //  moshi: MoshiConverterFactory
+        moshi: MoshiConverterFactory
     ): Retrofit = Retrofit
         .Builder()
         .baseUrl(BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(moshi)
         .build()
 
 
@@ -47,3 +42,14 @@ class Module {
         .create(ApiService::class.java)
 
 }
+
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class BindsModule {
+    @Singleton
+    @Binds
+    abstract fun bindsRepo(repoImp: RepoImp): Repository
+}
+
+

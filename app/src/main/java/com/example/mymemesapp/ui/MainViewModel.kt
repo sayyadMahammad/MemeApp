@@ -11,28 +11,33 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(val useCase: UseCase):ViewModel(){
+class MainViewModel @Inject constructor(val useCase: UseCase) : ViewModel() {
 
     private var _memesList = MutableLiveData<List<Meme>>()
-    val memesList : LiveData<List<Meme>>
-    get() = _memesList
+    val memesList: LiveData<List<Meme>>
+        get() = _memesList
 
 
-    fun fetchMemes(){
+    fun fetchMemes() {
+
         viewModelScope.launch {
-           val result= useCase.getMemes()
-            if(result.success ){
+            val result = useCase.getMemes()
+            if (result.success) {
                 _memesList.postValue(result.data.memes)
             }
 
         }
     }
+    //init {
+//        viewModelScope.launch {
+//            val result= useCase.getMemes()
+//            if(result.isSuccessful && result.body() !=null ){
+//                _memesList.postValue(result.body()!!.data.memes)
+//            }
+//
+//        }
 
-
-
-
-
-
+    // }
 
 
 }
