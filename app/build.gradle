@@ -17,11 +17,25 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        config_release {
+            storeFile file('/Users/tnluser/keystorefile')
+            keyAlias 'key0'
+            storePassword '123456'
+            keyPassword '123456'
+        }
+    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            properties: {
+//                "android.injected.signing.store.file" => "/Users/tnluser/keystorefile",
+//                "android.injected.signing.store.password" => "123456",
+//                "android.injected.signing.key.alias" => "key0",
+//                "android.injected.signing.key.password" => "123456",
+//            }
         }
     }
     compileOptions {
